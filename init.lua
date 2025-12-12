@@ -118,6 +118,12 @@ vim.schedule(function()
   vim.o.clipboard = 'unnamedplus'
 end)
 
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+-- true = use spaces instead of tabs
+vim.opt.expandtab = true
+
 -- Enable break indent
 vim.o.breakindent = true
 
@@ -207,6 +213,10 @@ vim.keymap.set('n', '<A-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
 -- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
 -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
+
+-- Note that I lose (-) decrease height and (|) max out width
+vim.keymap.set('n', '<C-w>-', '<C-w>s', { desc = 'Split horizontal', remap = false })
+vim.keymap.set('n', '<C-w>|', '<C-w>v', { desc = 'Split vertical', remap = false })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -492,6 +502,17 @@ require('lazy').setup({
     },
   },
   {
+    'folke/neoconf.nvim',
+    lazy = false,
+    priority = 1000,
+    opts = {
+      import = {
+        vscode = false, -- local .vscode/settings.json
+        coc = false, -- global/local coc-settings.json
+      },
+    },
+  },
+  {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
     dependencies = {
@@ -716,6 +737,7 @@ require('lazy').setup({
           },
         },
         zls = {},
+        -- jdtls = {}, -- enabled by nvim-java
       }
 
       -- Ensure the servers and tools above are installed
@@ -1180,11 +1202,11 @@ require('lazy').setup({
         desc = 'Grep Open Buffers',
       },
       {
-        '<leader>sg',
+        '<leader>f/',
         function()
           Snacks.picker.grep()
         end,
-        desc = 'Grep',
+        desc = 'Live Grep',
       },
       {
         '<leader>sw',
@@ -1322,7 +1344,7 @@ require('lazy').setup({
         desc = 'Quickfix List',
       },
       {
-        '<leader>sR',
+        '<leader>ss',
         function()
           Snacks.picker.resume()
         end,
@@ -1379,20 +1401,20 @@ require('lazy').setup({
       --   end,
       --   desc = 'Goto T[y]pe Definition',
       -- },
-      {
-        'gai',
-        function()
-          Snacks.picker.lsp_incoming_calls()
-        end,
-        desc = 'C[a]lls Incoming',
-      },
-      {
-        'gao',
-        function()
-          Snacks.picker.lsp_outgoing_calls()
-        end,
-        desc = 'C[a]lls Outgoing',
-      },
+      -- {
+      --   'gai',
+      --   function()
+      --     Snacks.picker.lsp_incoming_calls()
+      --   end,
+      --   desc = 'C[a]lls Incoming',
+      -- },
+      -- {
+      --   'gao',
+      --   function()
+      --     Snacks.picker.lsp_outgoing_calls()
+      --   end,
+      --   desc = 'C[a]lls Outgoing',
+      -- },
       {
         '<leader>cs',
         function()
