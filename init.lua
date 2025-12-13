@@ -114,15 +114,16 @@ vim.o.showmode = false
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
+
+-- in wayland, `sudo apt install wl-clipboard` is required
 vim.schedule(function()
   vim.o.clipboard = 'unnamedplus'
 end)
 
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
--- true = use spaces instead of tabs
-vim.opt.expandtab = true
+vim.opt.tabstop = 4 -- size of a hard tabstop (ts)
+vim.opt.shiftwidth = 4 -- size of an indentation (sw)
+vim.opt.softtabstop = 4 -- number of spaces a <Tab> counts for. When 0, feature is off (sts)
+vim.opt.expandtab = true -- always uses spaces instead of tab characters (et).
 
 -- Enable break indent
 vim.o.breakindent = true

@@ -20,6 +20,7 @@ return {
       'jsonc',
       'groovy',
       'sql',
+      'nix',
     },
     auto_install = true,
     highlight = {
