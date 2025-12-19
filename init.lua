@@ -504,6 +504,7 @@ require('lazy').setup({
   },
   {
     'folke/neoconf.nvim',
+    enabled = false,
     lazy = false,
     priority = 1000,
     opts = {
@@ -738,7 +739,33 @@ require('lazy').setup({
           },
         },
         zls = {},
-        -- jdtls = {}, -- enabled by nvim-java
+        jdtls = {
+          autostart = false,
+        },
+        --   settings = {
+        --     java = {
+        --       configuration = {
+        --         -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
+        --         -- And search for `interface RuntimeOption`
+        --         -- The `name` is NOT arbitrary, but must match one of the elements from `enum ExecutionEnvironment` in the link above
+        --         runtimes = {
+        --           {
+        --             name = 'JavaSE-21',
+        --             path = '/usr/lib/jvm/open-jdk-21',
+        --           },
+        --           {
+        --             name = 'JavaSE-17',
+        --             path = '/usr/lib/jvm/open-jdk-17',
+        --           },
+        --           {
+        --             name = 'JavaSE-1.8',
+        --             path = '/usr/lib/jvm/open-jdk-8',
+        --           },
+        --         },
+        --       },
+        --     },
+        --   },
+        -- },
       }
 
       -- Ensure the servers and tools above are installed
@@ -765,12 +792,20 @@ require('lazy').setup({
         automatic_installation = false,
         handlers = {
           function(server_name)
+            if server_name == 'jdtls' then
+              return
+            end
             local server = servers[server_name] or {}
             -- This handles overriding only values explicitly passed
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
+          end,
+
+          -- Tell Mason-LSPConfig to do nothing for jdtls
+          ['jdtls'] = function()
+            return true
           end,
         },
       }
@@ -797,7 +832,7 @@ require('lazy').setup({
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
+        local disable_filetypes = { c = true, cpp = true, java = true }
         if disable_filetypes[vim.bo[bufnr].filetype] then
           return nil
         else
