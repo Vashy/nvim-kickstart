@@ -185,7 +185,16 @@ vim.o.undofile = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Pastes copied text into _ (without overriding paste buffer)
-vim.keymap.set('x', '<leader>p', [["_dP]], { desc = 'Paste without overriding buffer' })
+vim.keymap.set('x', '<leader>p', '"_dP', { desc = 'Paste without overriding buffer' })
+vim.keymap.set('n', '<leader>d', '"_dP', { desc = 'Paste without overriding buffer' })
+vim.keymap.set('v', '<leader>d', '"_dP', { desc = 'Paste without overriding buffer' })
+
+vim.keymap.set('n', '<leader>y', '"+y', { desc = 'Copy to system clipboard' })
+vim.keymap.set('v', '<leader>y', '"+y', { desc = 'Copy to system clipboard' })
+vim.keymap.set('n', '<leader>Y', '"+Y', { desc = 'Copy line to system clipboard' })
+
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move lines down' })
+vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move lines up' })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
@@ -198,7 +207,7 @@ vim.keymap.set('n', '<leader>e', vim.cmd.Ex, { desc = 'File explorer' })
 --
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
-vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+-- vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- TIP: Disable arrow keys in normal mode
 vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
