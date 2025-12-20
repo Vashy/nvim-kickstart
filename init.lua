@@ -190,6 +190,8 @@ vim.keymap.set('x', '<leader>p', [["_dP]], { desc = 'Paste without overriding bu
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
+vim.keymap.set('n', '<leader>e', vim.cmd.Ex, { desc = 'File explorer' })
+
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
@@ -1048,7 +1050,7 @@ require('lazy').setup({
     opts = {
       bigfile = { enabled = true },
       dashboard = { enabled = false },
-      explorer = { enabled = true },
+      explorer = { enabled = false },
       indent = { enabled = true },
       input = { enabled = true },
       notifier = {
@@ -1104,13 +1106,13 @@ require('lazy').setup({
         end,
         desc = 'Notification History',
       },
-      {
-        '<leader>e',
-        function()
-          Snacks.explorer()
-        end,
-        desc = 'File Explorer',
-      },
+      -- {
+      --   '<leader>e',
+      --   function()
+      --     Snacks.explorer()
+      --   end,
+      --   desc = 'File Explorer',
+      -- },
       -- find
       {
         '<leader>fb',
