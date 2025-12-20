@@ -173,6 +173,10 @@ vim.o.scrolloff = 3
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
+-- Enable undo file persistence
+vim.o.undodir = os.getenv 'HOME' .. '/.cache/nvim/undodir/'
+vim.o.undofile = true
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
