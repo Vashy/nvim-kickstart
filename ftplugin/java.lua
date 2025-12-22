@@ -13,12 +13,8 @@ local root_dir = jdtls.setup.find_root(root_markers)
 local project_name = vim.fn.fnamemodify(root_dir, ':p:h:t')
 local workspace_dir = vim.fn.stdpath 'data' .. '/jdtls-workspace/' .. project_name
 
--- Safely get capabilities
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-local status_ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
-if status_ok then
-  capabilities = cmp_nvim_lsp.default_capabilities()
-end
+-- Use the exact same capabilities as the rest of your editor
+local capabilities = require('blink.cmp').get_lsp_capabilities()
 
 local config = {
   -- 1. FORCE THE SERVER TO RUN ON JDK 21
@@ -75,10 +71,15 @@ local config = {
   },
 
   -- This ensures your keymaps (definition, references) from kickstart still work
-  on_attach = function(client, bufnr)
-    -- If you have a specific on_attach function in init.lua, you can call it here
-    -- Or just let kickstart's LspAttach autocmd handle it.
-  end,
+  -- on_attach = function(client, bufnr)
+  -- on_attach = function(client, bufnr)
+  --   _G.lsp_mappings { buf = bufnr, data = { client_id = client.id } }
+  -- You can also add JDTLS-specific keymaps here
+  -- e.g., require('jdtls').extract_variable()
+  -- end,
+  -- If you have a specific on_attach function in init.lua, you can call it here
+  -- Or just let kickstart's LspAttach autocmd handle it.
+  -- end,
 }
 
 jdtls.start_or_attach(config)
